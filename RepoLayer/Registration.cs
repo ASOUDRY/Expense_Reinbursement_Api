@@ -1,9 +1,13 @@
 using Microsoft.Data.SqlClient;
 using ModelsLayer;
 using User;
+
+namespace RepoLayer;
 public class Registration {
 
-SqlConnection connection = new SqlConnection("");
+ public Registration() {
+    }
+SqlConnection connection = new SqlConnection($"Server=tcp:alexander-resume-server.database.windows.net,1433;Initial Catalog=Expense-Reinbursement-Api-Storage;Persist Security Info=False;User ID=Munchydragon;Password={Secrets.password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
 public async Task<UserInfo> RegisterAsync(UserQuery User) {
 
@@ -13,7 +17,7 @@ List<string> verification = new List<string>();
  try
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand($"SELECT Username FROM UserInfo2;", connection);
+                    SqlCommand command = new SqlCommand($"SELECT Username FROM UserInfo;", connection);
                     SqlDataReader reader = command.ExecuteReader();
                     if(reader.HasRows)
                     {
@@ -31,14 +35,14 @@ List<string> verification = new List<string>();
                     throw;
                 }
                     finally{
-                    connection.Close();
+                   connection.Close();
                 }
 
                 if (verification.Count == 0) {
 try
         {
             connection.Open();
-            SqlCommand cmd = new SqlCommand("INSERT INTO UserInfo2 (Id, Username, Password, Manager, Employee) VALUES (@Id, @Username, @Password, @Manager, @Employee)", connection);
+            SqlCommand cmd = new SqlCommand("INSERT INTO UserInfo (Id, Username, Password, Manager, Employee) VALUES (@Id, @Username, @Password, @Manager, @Employee)", connection);
             cmd.Parameters.AddWithValue("@Id", User.Id);
             cmd.Parameters.AddWithValue("@Username", User.Name);
             cmd.Parameters.AddWithValue("@Password", User.Password);

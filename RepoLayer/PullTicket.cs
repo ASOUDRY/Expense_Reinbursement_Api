@@ -1,7 +1,8 @@
 using Microsoft.Data.SqlClient;
 using ModelsLayer;
+namespace RepoLayer;
 public class Review {
-SqlConnection connection = new SqlConnection("");
+SqlConnection connection = new SqlConnection($"Server=tcp:alexander-resume-server.database.windows.net,1433;Initial Catalog=Expense-Reinbursement-Api-Storage;Persist Security Info=False;User ID=Munchydragon;Password={Secrets.password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
 public async Task<List<Ticket>> PullTicketsAsync() {
     List<Ticket> TicketList = new List<Ticket>();
@@ -9,7 +10,7 @@ public async Task<List<Ticket>> PullTicketsAsync() {
      try
         {
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT * FROM Tickets2 WHERE IsProcessed = 0 ;", connection);
+            SqlCommand command = new SqlCommand("SELECT * FROM Tickets WHERE IsProcessed = 0 ;", connection);
             SqlDataReader reader = command.ExecuteReader();
             if(reader.HasRows)
             {
@@ -19,14 +20,12 @@ public async Task<List<Ticket>> PullTicketsAsync() {
                     string n = (string) reader["NameofExpense"];
                     float a = (float) reader["AmountSpent"];
                     string j = (string) reader["Justification"];
-           //         string c = (string) reader ["Client"];
      
                     Ticket ticket = new Ticket {
                         Id = id,
                         NameofExpense = n,
                         AmountSpent = a,
-                        Justification = j,
-                     //   Client = c                   
+                        Justification = j,                
                     };  
                     TicketList.Add(ticket);
                }

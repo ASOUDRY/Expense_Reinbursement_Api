@@ -1,16 +1,18 @@
  using Microsoft.Data.SqlClient;
- using User;
+
  using ModelsLayer;
+ namespace RepoLayer;
  public class FetchTicket {
 List<Ticket> TicketList = new List<Ticket>();
-SqlConnection connection = new SqlConnection("");
+
+SqlConnection connection = new SqlConnection($"Server=tcp:alexander-resume-server.database.windows.net,1433;Initial Catalog=Expense-Reinbursement-Api-Storage;Persist Security Info=False;User ID=Munchydragon;Password={Secrets.password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
  public async Task<List<Ticket>> FetchTicketAsync(string User) {
     await Task.Delay(1000);
  try
         {
             connection.Open();
 
-            SqlCommand command = new SqlCommand($"SELECT * FROM Tickets2 WHERE Id = '{User}';", connection);
+            SqlCommand command = new SqlCommand($"SELECT * FROM Tickets WHERE Id = '{User}';", connection);
  
             SqlDataReader reader = command.ExecuteReader();
             
@@ -47,29 +49,6 @@ SqlConnection connection = new SqlConnection("");
         {
             connection.Close();
         }
-        return TicketList;
-           
-/*
-            if(TicketList.Count == 0) {
-                Console.WriteLine("You have no tickets of this type available.");
-
-            }
-            else {
-                  Console.WriteLine("Here are your reviewed Tickets");
-                     Console.WriteLine("");
-                  
-            foreach(Ticket item in TicketList) {
-                string proxy = "Rejected.";
-                if (item.IsProcessed == false) {
-                 proxy = "Pending.";
-                }
-                if (item.IsApproved == true) {
-                    proxy = "Your ticket was approved.";
-                }
-                           Console.WriteLine("NameofExpense: " + item.NameofExpense + ", Amount Spent: " + item.AmountSpent + ", Justification: " + item.Justification + ", Status: " + proxy);
-                           Console.WriteLine("");
-            }
-            }
-        */    
+        return TicketList;  
     }
  }

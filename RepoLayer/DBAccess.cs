@@ -1,10 +1,10 @@
 ﻿using User;
 using ModelsLayer;
 using Microsoft.Data.SqlClient;
-namespace RepoLayer;
-public class DBAccess : IDBAccess
+namespace RepoLayer 
 {
-
+public class DBAccess
+{
     Registration Register = new Registration();
     Login Login = new Login();
     Submit Submit = new Submit();
@@ -50,3 +50,4 @@ public class DBAccess : IDBAccess
     }
     }
 
+}
