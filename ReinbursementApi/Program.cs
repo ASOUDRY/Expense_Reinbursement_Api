@@ -15,9 +15,11 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
        /*
+       
         builder.Services.AddScoped<IBusinessLayerClass, BusinessLayerClass>();
-        builder.Services.AddScoped<IDBAccess, DBAccess>();
-*/
+        */
+        builder.Services.AddScoped<IDBAccess, SqlConnectingClass>();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
